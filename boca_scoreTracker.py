@@ -4,13 +4,17 @@ from tkinter import messagebox
 from openpyxl import load_workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
+import os
 
-wb=Workbook()
-ws=wb.active
-ws.title= "StudentScores"
-ws.append(["Name", "Score","Result"])
-wb.save("student_scores.xlsx")
+#Create file
+if not os.path.exists("student_scores.xlsx"):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "StudentScores"
+    ws.append(["Name", "Score", "Result"])
+    wb.save("student_scores.xlsx")
 
+#Check Inputs
 def validate_inputs():
     name = name_entry.get()
     try:
@@ -27,6 +31,7 @@ def validate_inputs():
 
     return True
 
+#Save Data
 def save_to_excel():
     if not validate_inputs():
         return
@@ -45,6 +50,7 @@ def save_to_excel():
     name_entry.delete(0, tk.END)
     score_entry.delete(0, tk.END)
 
+#Show Data
 def show_data():
     wb = load_workbook("student_scores.xlsx")
     ws = wb["StudentScores"]
@@ -58,6 +64,7 @@ def show_data():
             label = tk.Label(data_window, text=value, borderwidth=1, relief="solid", padx=6, pady=3)
             label.grid(row=i, column=j)
 
+#Create Widgets
 window = tk.Tk()
 window.title("User Data Form")
 
